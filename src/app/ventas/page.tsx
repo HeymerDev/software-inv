@@ -134,7 +134,9 @@ const page = async () => {
                       <TableCell className="font-medium">
                         #{sale.venta_id}
                       </TableCell>
-                      <TableCell>{sale.fecha}</TableCell>
+                      <TableCell>
+                        {new Date(sale.fecha).toISOString().split("T")[0]}
+                      </TableCell>
                       <TableCell>{sale.cliente}</TableCell>
                       <TableCell>{sale.estado}</TableCell>
                       <TableCell>{sale.total}</TableCell>
