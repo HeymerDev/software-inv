@@ -2,6 +2,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { serverClient } from '@/lib/supabaseClient'
+import { CustomUser } from '@/types/types'
 export async function login(formData: FormData) {
     const supabase = await serverClient()
     // type-casting here for convenience
@@ -42,34 +43,25 @@ export async function logout() {
 
 export const getUserWithRoleServer = async () => {
     const supabase = await serverClient();
-    const { data: authData, error: authError } = await supabase.auth.getUser();
 
-    if (authError || !authData?.user) {
+    const {
+        data,
+        error: authError,
+    } = await supabase.auth.getSession();
+
+    if (authError || !data) {
         redirect("/login");
     }
 
-    // Obtener el usuario personalizado con su rol
     const { data: userData, error: userError } = await supabase
-        .from("users")
-        .select(
-            `
-    id,
-    nombre,
-    email,
-    typeuser: typeuser_id (
-      id,
-      nombre
-    )
-  `
-        )
-        .eq("user-authId", authData.user.id)
+        .rpc("get_user_with_role", { auth_id: data.session?.user.id })
         .single();
 
-    if (userError) {
-        console.error("Error trayendo el usuario personalizado", userError);
-    } else {
-        console.log("Usuario personalizado con rol:", userData);
-        return userData;
+    if (userError || !userData) {
+        console.log("Error trayendo usuario con función", userError);
     }
-}
+
+    return userData as CustomUser;
+};
+
 
