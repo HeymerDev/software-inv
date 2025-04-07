@@ -20,7 +20,7 @@ const page = async () => {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-4">
+    <main className="flex items-center justify-center p-4">
       <Card className="w-full max-w-md bg-black text-secondary">
         <CardHeader className="space-y-2 text-center">
           <div className="flex justify-center">
