@@ -14,8 +14,8 @@ import { NavItem } from "@/types/types";
 
 export async function MainNav() {
   const userData = await getUserWithRoleServer();
-  const { email, nombre, typeuser_id } = userData || {};
-  const userRole = typeuser_id?.nombre || "Sin rol";
+
+  console.log("Usuario en MainNav:", userData?.typeuser.nombre);
 
   // Si no hay usuario, no mostrar la navegación
   if (!userData) return null;
@@ -55,11 +55,11 @@ export async function MainNav() {
 
   // Filter nav items based on user role
   const filteredNavItems = navItems.filter((item) => {
-    console.log(
-      `User role: ${userData.typeuser.nombre}, Item roles: ${item.roles}`
-    );
-    item.roles.includes(userRole);
+    return item.roles.includes(userData?.typeuser.nombre);
   });
+
+  console.log(filteredNavItems);
+
 
   return (
     <nav className="flex items-center space-x-4 lg:space-x-6">
