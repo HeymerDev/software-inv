@@ -1,3 +1,5 @@
+import { serverClient } from "@/lib/supabaseClient";
+
 import {
   Card,
   CardDescription,
@@ -8,8 +10,15 @@ import {
 import { Package } from "lucide-react";
 
 import { Form } from "@/components/ui/form";
+import { redirect } from "next/navigation";
 
-const page = () => {
+const page = async () => {
+  const supabase = await serverClient();
+  const { data, error } = await supabase.auth.getSession();
+  if (error || data?.session) {
+    return redirect("/");
+  }
+
   return (
     <main className="flex min-h-screen items-center justify-center p-4">
       <Card className="w-full max-w-md bg-black text-secondary">
