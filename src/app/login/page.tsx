@@ -11,6 +11,7 @@ import { Package } from "lucide-react";
 
 import { Form } from "@/components/ui/form";
 import { redirect } from "next/navigation";
+import { Toaster } from "sonner";
 
 const page = async () => {
   const supabase = await serverClient();
@@ -20,7 +21,7 @@ const page = async () => {
   }
 
   return (
-    <main className="flex items-center justify-center p-4">
+    <main className="flex items-center min-h-[850px] justify-center">
       <Card className="w-full max-w-md bg-black text-secondary">
         <CardHeader className="space-y-2 text-center">
           <div className="flex justify-center">
@@ -37,6 +38,7 @@ const page = async () => {
           </CardDescription>
         </CardHeader>
         <Form />
+        <Toaster duration={10} position="bottom-right" theme="dark" />
       </Card>
     </main>
   );

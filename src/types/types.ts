@@ -47,4 +47,35 @@ export interface Product {
 
 }
 
+export type InvoiceWithClient = {
+    invoice_id: number;
+    sale_id: number;
+    client_id: number;
+    client_name: string;
+    fecha_emision: string; // o Date
+    estado: string;
+    total: number; // monto total de la venta
+};
+
+export type FullInvoiceItem = {
+    invoice_id: number;
+    sale_id: number;
+    client_id: number;
+    client_name: string;
+    client_email: string;
+    client_telefono: string;
+    client_direccion: string;
+    fecha_emision: string; // puedes usar Date si conviertes
+    estado: string;
+    total: number;
+    product_id: number;
+    product_name: string;
+    cantidad: number;
+    precio_unitario: number;
+    subtotal: number;
+};
+
+
+
+
 

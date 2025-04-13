@@ -48,6 +48,13 @@ export default async function Page() {
     return redirect("/login");
   }
 
+  if (userData.role === "Bodega") {
+    return redirect("/productos");
+  }
+  if (userData.role === "Vendedor") {
+    return redirect("/ventas");
+  }
+
   return (
     <>
       <div className="flex  flex-col text-secondary ">

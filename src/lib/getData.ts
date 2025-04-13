@@ -1,5 +1,5 @@
 import { serverClient } from "@/lib/supabaseClient"; // o donde tengas tu cliente configurado
-import { Client, Product, VentaConInfo } from "@/types/types";
+import { Client, FullInvoiceItem, InvoiceWithClient, Product, VentaConInfo } from "@/types/types";
 
 export const getVentasConInfo = async () => {
     const supabase = await serverClient();
@@ -41,3 +41,28 @@ export const getProducts = async () => {
 
     return data as Product[]; // Cambia el tipo según tu esquema de productos
 };
+
+export const getInvoices = async () => {
+    const supabase = await serverClient();
+    const { data, error } = await supabase.rpc('get_invoices_with_client');
+
+    if (error) {
+        console.error('Error al obtener facturas:', error);
+        return [];
+    }
+
+    return data as InvoiceWithClient[]; // Cambia el tipo según tu esquema de facturas
+}
+
+export const getFullInvoices = async () => {
+    const supabase = await serverClient();
+    const { data, error } = await supabase
+        .rpc('get_full_invoice_data');
+
+    if (error) {
+        console.error('Error al obtener las facturas:', error);
+        return [];
+    }
+
+    return data as FullInvoiceItem[]; // Cambia el tipo según tu esquema de facturas
+}
