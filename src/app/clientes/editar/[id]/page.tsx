@@ -6,7 +6,7 @@ import { ArrowLeft } from "lucide-react";
 
 import Link from "next/link";
 
-const page = async ({ params }: { params: { id: string } }) => {
+const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const clientId = parseInt(id);
 
