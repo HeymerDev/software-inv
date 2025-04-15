@@ -20,13 +20,13 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { InvoiceWithClient } from "@/types/types";
+import { FullInvoiceItem } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { generateInvoicePDF } from "@/utils/createInvoicePDF";
 
 interface Props {
-  invoices: InvoiceWithClient[];
+  invoices: FullInvoiceItem[];
 }
 
 const TableFacturas = ({ invoices }: Props) => {
@@ -84,9 +84,9 @@ const TableFacturas = ({ invoices }: Props) => {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  filteredInvoices.map((invoice) => (
+                  filteredInvoices.map((invoice, index) => (
                     <TableRow
-                      key={invoice.invoice_id}
+                      key={index}
                       className="hover:bg-zinc-900 cursor-pointer"
                       onClick={() =>
                         router.push(`/facturas/${invoice.invoice_id}`)
@@ -107,7 +107,7 @@ const TableFacturas = ({ invoices }: Props) => {
                       <TableCell>
                         <Badge
                           variant={
-                            invoice.estado === "Paid"
+                            invoice.estado === "Pagado"
                               ? "default"
                               : "destructive"
                           }
@@ -121,6 +121,7 @@ const TableFacturas = ({ invoices }: Props) => {
                           size="icon"
                           onClick={(e) => {
                             e.stopPropagation();
+                            generateInvoicePDF(invoices, invoice.invoice_id);
                             // Simular descarga
                             toast.message("Descargando factura...", {
                               description: `Factura ${invoice.invoice_id} descargada correctamente.`,

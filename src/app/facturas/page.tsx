@@ -1,12 +1,12 @@
 import TableFacturas from "@/components/tables/table-facturas";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getInvoices } from "@/lib/getData";
+import { getFullInvoices } from "@/lib/getData";
 import { InvoiceWithClient } from "@/types/types";
 import { FileText } from "lucide-react";
 import { Toaster } from "sonner";
 
 const page = async () => {
-  const invoices = await getInvoices();
+  const invoices = await getFullInvoices();
 
   const calcularTotalFacturado = (invoices: InvoiceWithClient[]) => {
     return invoices.reduce((acumulado, invoice) => {
@@ -14,10 +14,18 @@ const page = async () => {
     }, 0);
   };
 
+  const calcularTotalFacturadoPendiente = (invoices: InvoiceWithClient[]) => {
+    return invoices.reduce((acumulado, invoice) => {
+      return acumulado + (invoice.estado === "No Pagado" ? invoice.total : 0);
+    }, 0);
+  };
+
   return (
     <div className="container mx-auto py-6">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold tracking-tight">Facturas</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-secondary">
+          Facturas
+        </h1>
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
@@ -46,9 +54,15 @@ const page = async () => {
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$0.00</div>
+            <div className="text-2xl font-bold">
+              $
+              {calcularTotalFacturadoPendiente(invoices).toLocaleString(
+                "es-CO"
+              )}
+            </div>
             <p className="text-xs text-muted-foreground">
-              0 facturas pendientes
+              {invoices.filter((inv) => inv.estado === "No Pagado").length}{" "}
+              facturas pendientes
             </p>
           </CardContent>
         </Card>

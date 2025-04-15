@@ -66,3 +66,20 @@ export const getFullInvoices = async () => {
 
     return data as FullInvoiceItem[]; // Cambia el tipo según tu esquema de facturas
 }
+
+export const getClientById = async (id: number) => {
+    const supabase = await serverClient();
+
+    const { data, error } = await supabase
+        .from("client")
+        .select("*")
+        .eq("id", id)
+        .single(); // Obtiene un solo cliente por ID
+
+    if (error) {
+        console.log("Error consultando el cliente por ID:", error);
+        return null;
+    }
+
+    return data as Client; // Cambia el tipo según tu esquema de cliente
+}

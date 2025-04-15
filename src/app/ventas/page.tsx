@@ -17,7 +17,9 @@ const page = async () => {
   return (
     <div className="container mx-auto py-6">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold tracking-tight">Ventas</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-secondary">
+          Ventas
+        </h1>
         <Link href="/ventas/nueva">
           <Button>
             <Plus className="mr-2 h-4 w-4" /> Nueva Venta

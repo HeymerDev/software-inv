@@ -95,7 +95,7 @@ const TableVentas = ({ sales }: Props) => {
                         {new Date(sale.fecha).toISOString().split("T")[0]}
                       </TableCell>
                       <TableCell>{sale.cliente}</TableCell>
-                      <TableCell>{sale.estado}</TableCell>
+                      <TableCell>{sale.cantidad_productos}</TableCell>
                       <TableCell>{sale.total}</TableCell>
                       <TableCell>
                         <Badge
