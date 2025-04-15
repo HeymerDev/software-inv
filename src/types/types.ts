@@ -27,7 +27,8 @@ export interface VentaConInfo {
     cliente: string;
     fecha: string; // o Date si lo conviertes
     total: number;
-    estado: "Pagado" | "No pagado"; // según tus estados
+    estado: "Pagado" | "No pagado";// según tus estados
+    cantidad_productos: number; // o el nombre que uses para la cantidad de artículos
 }
 
 export interface Client {
@@ -46,5 +47,43 @@ export interface Product {
     stock: number;
 
 }
+
+export type InvoiceWithClient = {
+    invoice_id: number;
+    sale_id: number;
+    client_id: number;
+    client_name: string;
+    fecha_emision: string; // o Date
+    estado: string;
+    total: number; // monto total de la venta
+};
+
+export type FullInvoiceItem = {
+    invoice_id: number;
+    sale_id: number;
+    client_id: number;
+    client_name: string;
+    client_email: string;
+    client_telefono: string;
+    client_direccion: string;
+    fecha_emision: string; // puedes usar Date si conviertes
+    estado: string;
+    total: number;
+    product_id: number;
+    product_name: string;
+    cantidad: number;
+    precio_unitario: number;
+    subtotal: number;
+};
+
+export interface ProductoVenta {
+    id: number;
+    name: string;
+    price: number;
+    quantity: number;
+}
+
+
+
 
 

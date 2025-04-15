@@ -19,13 +19,19 @@ import {
 } from "lucide-react";
 import { redirect } from "next/navigation";
 
-import { getClients, getProducts, getVentasConInfo } from "@/lib/getData";
+import {
+  getClients,
+  getProducts,
+  getVentasConInfo,
+  getInvoices,
+} from "@/lib/getData";
 import { VentaConInfo } from "@/types/types";
 
 export default async function Page() {
   const userData = await getUserWithRoleServer();
   const clients = await getClients();
   const products = await getProducts();
+  const invoices = await getInvoices();
 
   const sales = await getVentasConInfo();
 
@@ -46,6 +52,13 @@ export default async function Page() {
 
   if (!userData) {
     return redirect("/login");
+  }
+
+  if (userData.role === "Bodega") {
+    return redirect("/productos");
+  }
+  if (userData.role === "Vendedor") {
+    return redirect("/ventas");
   }
 
   return (
@@ -157,7 +170,7 @@ export default async function Page() {
                     <FileText className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">100</div>
+                    <div className="text-2xl font-bold">{invoices.length}</div>
                     <p className="text-xs text-muted-foreground">
                       Facturas Totales
                     </p>
@@ -180,49 +193,54 @@ export default async function Page() {
             {["Administrador", "Vendedor"].includes(userData?.role) && (
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
                 <Card className="col-span-4 cursor-pointer hover:bg-black/30 transition-colors text-secondary bg-black">
-                  <CardHeader className="flex flex-row items-center justify-between">
-                    <div>
-                      <CardTitle>Ventas Recientes</CardTitle>
-                      <CardDescription>
-                        Las últimas 5 ventas realizadas
-                      </CardDescription>
-                    </div>
-                    <Button variant="ghost" size="icon" className="ml-auto">
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {recentSales.map((sale) => (
-                        <div key={sale.venta_id} className="flex items-center">
-                          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary">
-                            <Calendar className="h-4 w-4" />
-                          </div>
-                          <div className="ml-4 space-y-1">
-                            <p className="text-sm font-medium leading-none">
-                              {sale.cliente}
-                            </p>
-                            <p className="text-sm text-muted-foreground">
-                              {sale.fecha}
-                            </p>
-                          </div>
-                          <div className="ml-auto font-medium">
-                            {sale.total}
-                          </div>
-                          <Badge
-                            className="ml-2"
-                            variant={
-                              sale.estado === "Pagado"
-                                ? "default"
-                                : "destructive"
-                            }
+                  <Link href="/ventas">
+                    <CardHeader className="flex flex-row items-center justify-between">
+                      <div>
+                        <CardTitle>Ventas Recientes</CardTitle>
+                        <CardDescription>
+                          Las últimas 5 ventas realizadas
+                        </CardDescription>
+                      </div>
+                      <Button variant="ghost" size="icon" className="ml-auto">
+                        <ArrowRight className="h-4 w-4" />
+                      </Button>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        {recentSales.map((sale) => (
+                          <div
+                            key={sale.venta_id}
+                            className="flex items-center"
                           >
-                            {sale.estado}
-                          </Badge>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
+                            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary">
+                              <Calendar className="h-4 w-4" />
+                            </div>
+                            <div className="ml-4 space-y-1">
+                              <p className="text-sm font-medium leading-none">
+                                {sale.cliente}
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                {sale.fecha}
+                              </p>
+                            </div>
+                            <div className="ml-auto font-medium">
+                              {sale.total}
+                            </div>
+                            <Badge
+                              className="ml-2"
+                              variant={
+                                sale.estado === "Pagado"
+                                  ? "default"
+                                  : "destructive"
+                              }
+                            >
+                              {sale.estado}
+                            </Badge>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Link>
                 </Card>
 
                 <Card className="col-span-3 text-secondary bg-black">

@@ -23,11 +23,17 @@ export async function MainNav() {
       title: "Dashboard",
       href: "/",
       icon: <LayoutDashboard className="mr-2 h-4 w-4" />,
-      roles: ["Administrador", "Vendedor", "Bodega"],
+      roles: ["Administrador"],
     },
     {
       title: "Clientes",
       href: "/clientes",
+      icon: <Users className="mr-2 h-4 w-4" />,
+      roles: ["Administrador", "Vendedor"],
+    },
+    {
+      title: "Usuarios",
+      href: "/usuarios",
       icon: <Users className="mr-2 h-4 w-4" />,
       roles: ["Administrador"],
     },

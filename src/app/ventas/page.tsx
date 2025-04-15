@@ -1,32 +1,14 @@
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Plus, Search } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import { Plus } from "lucide-react";
 import Link from "next/link";
 import { getVentasConInfo } from "@/lib/getData";
 import { VentaConInfo } from "@/types/types";
+import TableVentas from "@/components/tables/table-ventas";
 
 const page = async () => {
   const sales = await getVentasConInfo();
-
-  const filteredSales = sales.filter((sale) => {
-    return sale.estado.toLowerCase().includes("a"); // Aquí puedes implementar tu lógica de filtrado
-  });
 
   const calcularTotalVentas = (ventas: VentaConInfo[]): number => {
     return ventas.reduce((acumulado, venta) => acumulado + venta.total, 0);
@@ -35,7 +17,9 @@ const page = async () => {
   return (
     <div className="container mx-auto py-6">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold tracking-tight">Ventas</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-secondary">
+          Ventas
+        </h1>
         <Link href="/ventas/nueva">
           <Button>
             <Plus className="mr-2 h-4 w-4" /> Nueva Venta
@@ -54,9 +38,7 @@ const page = async () => {
             <div className="text-2xl font-bold">
               ${calcularTotalVentas(sales).toLocaleString("es-CO")}
             </div>
-            <p className="text-xs text-muted-foreground">
-              +20.1% del mes anterior
-            </p>
+            <p className="text-xs text-muted-foreground">Obtenidos En ventas</p>
           </CardContent>
         </Card>
 
@@ -87,76 +69,7 @@ const page = async () => {
         </Card>
       </div>
 
-      <Card className="mt-6 bg-black text-secondary">
-        <CardHeader>
-          <CardTitle>Historial de Ventas</CardTitle>
-          <CardDescription>
-            Vea todas las ventas realizadas y su estado actual.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center mb-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Buscar ventas..."
-                className="pl-8 w-full md:w-1/3"
-              />
-            </div>
-          </div>
-
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="text-secondary">ID</TableHead>
-                  <TableHead className="text-secondary">Fecha</TableHead>
-                  <TableHead className="text-secondary">Cliente</TableHead>
-                  <TableHead className="text-secondary">Artículos</TableHead>
-                  <TableHead className="text-secondary">Total</TableHead>
-                  <TableHead className="text-secondary">Estado</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredSales.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={6} className="text-center py-4">
-                      No se encontraron ventas
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  filteredSales.map((sale) => (
-                    <TableRow
-                      key={sale.venta_id}
-                      className="hover:bg-zinc-900 cursor-pointer"
-                    >
-                      <TableCell className="font-medium">
-                        #{sale.venta_id}
-                      </TableCell>
-                      <TableCell>
-                        {new Date(sale.fecha).toISOString().split("T")[0]}
-                      </TableCell>
-                      <TableCell>{sale.cliente}</TableCell>
-                      <TableCell>{sale.estado}</TableCell>
-                      <TableCell>{sale.total}</TableCell>
-                      <TableCell>
-                        <Badge
-                          variant={
-                            sale.estado === "Pagado" ? "default" : "destructive"
-                          }
-                        >
-                          {sale.estado}
-                        </Badge>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </div>
-        </CardContent>
-      </Card>
+      <TableVentas sales={sales} />
     </div>
   );
 };
