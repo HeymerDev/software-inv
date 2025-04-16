@@ -43,7 +43,7 @@ export const generateInvoicePDF = (
     `$${item.subtotal.toFixed(2)}`
   ]);
 
-  let finalY = 95;
+  const finalY = 75;
 
   autoTable(doc, {
     startY: finalY,
