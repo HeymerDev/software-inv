@@ -67,7 +67,7 @@ const TableClient = ({ clients }: Props) => {
             </div>
           </div>
 
-          <div className="rounded-md border">
+          <div className="rounded-md border max-h-[400px] overflow-y-auto">
             <Table>
               <TableHeader>
                 <TableRow>

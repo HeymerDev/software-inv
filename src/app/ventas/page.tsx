@@ -14,6 +14,9 @@ const page = async () => {
     return ventas.reduce((acumulado, venta) => acumulado + venta.total, 0);
   };
 
+  const fechaHoy = new Date().toISOString().split("T")[0];
+  const ventasHoy = sales.filter((sale) => sale.fecha.split("T")[0] == fechaHoy);  
+
   return (
     <div className="container mx-auto py-6">
       <div className="flex items-center justify-between mb-6">
@@ -47,9 +50,9 @@ const page = async () => {
             <CardTitle className="text-sm font-medium">Ventas Hoy</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$1,429.40</div>
+            <div className="text-2xl font-bold">{ventasHoy.length}</div>
             <p className="text-xs text-muted-foreground">
-              24 ventas realizadas hoy
+              ventas realizadas hoy
             </p>
           </CardContent>
         </Card>
