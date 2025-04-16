@@ -30,6 +30,8 @@ import { Minus, Plus, Search, ShoppingCart, Trash } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { Client, Product, ProductoVenta } from "@/types/types";
+import { toast, Toaster } from "sonner";
+import { useRouter } from "next/navigation";
 
 const FormAddVenta = ({
   clients,
@@ -43,6 +45,8 @@ const FormAddVenta = ({
   const [cart, setCart] = useState<
     Array<{ id: number; name: string; price: number; quantity: number }>
   >([]);
+
+  const router = useRouter();
 
   const handleCreateVenta = async () => {
     if (!selectedClient || cart.length === 0) return;
@@ -70,6 +74,11 @@ const FormAddVenta = ({
         // Limpiar formulario si quieres
         setCart([]);
         setSelectedClient({ ...selectedClient, nombre: "" });
+
+        toast.message("Venta Creada",{description: `La venta Creada para el cliente ${selectedClient.nombre} se creo exitosamente`})
+        setTimeout(() => {
+          router.push("/ventas");
+        }, 2000);
       } else {
         console.log("Error al crear la venta:", data.error);
       }
@@ -135,10 +144,10 @@ const FormAddVenta = ({
                 <Select
                   value={selectedClient?.nombre}
                   onValueChange={(value) => {
-                    const client = clients.find(
-                      (c) => c.nombre.toString() === value
-                    );
-                    setSelectedClient(client || undefined);
+                    console.log(value)
+                    const client = clients.find((c) => c.nombre === value);
+                    console.log("Cliente seleccionado:", client); // Verifica qué cliente se seleccionó
+                    setSelectedClient(client);
                   }}
                 >
                   <SelectTrigger id="client">
@@ -146,7 +155,7 @@ const FormAddVenta = ({
                   </SelectTrigger>
                   <SelectContent>
                     {clients.map((client) => (
-                      <SelectItem key={client.id} value={client.id.toString()}>
+                      <SelectItem key={client.id} value={client.nombre}>
                         {client.nombre}
                       </SelectItem>
                     ))}
@@ -331,12 +340,13 @@ const FormAddVenta = ({
               className="w-full bg-secondary text-primary"
               size="lg"
               onClick={handleCreateVenta}
-              disabled={cart.length === 0}
+              disabled={cart.length === 0 || !selectedClient}
             >
               Crear Venta
             </Button>
           </CardFooter>
         </Card>
+        <Toaster theme="dark"/>
       </div>
     </>
   );

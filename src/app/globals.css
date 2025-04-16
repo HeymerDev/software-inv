@@ -120,3 +120,32 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Para navegadores basados en WebKit (Chrome, Safari, Edge) */
+/* WebKit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e1e1e;
+  border-radius: 100px; /* redondeo del track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 100px; /* redondeo de la barra */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #555 #1e1e1e; /* thumb y track */
+}
+
+
