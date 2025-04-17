@@ -24,6 +24,26 @@ export async function deleteClientAction(id: number) {
     }
 }
 
+export async function deleteProductAction(id: number) {
+    const supabase = await serverClient();
+
+    try {
+        // Intentamos eliminar el producto
+        const { error } = await supabase.from("product").delete().eq("id", id);
+
+        if (error) {
+            console.error("Error al eliminar el producto:", error); // Log de error
+            throw new Error("Error al eliminar el producto: " + error.message);
+        }
+
+        // Revalidar la ruta y redirigir
+        revalidatePath("/productos");
+    } catch (err) {
+        console.error("Error en deleteProductAction:", err); // Log de error
+        throw new Error("Error en la acción de eliminación: " + err);
+    }
+}
+
 
 
 

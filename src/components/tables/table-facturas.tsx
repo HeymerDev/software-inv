@@ -21,7 +21,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { FullInvoiceItem } from "@/types/types";
-import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { generateInvoicePDF } from "@/utils/createInvoicePDF";
 
@@ -30,7 +29,6 @@ interface Props {
 }
 
 const TableFacturas = ({ invoices }: Props) => {
-  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   const filteredInvoices = invoices.filter(
@@ -38,7 +36,8 @@ const TableFacturas = ({ invoices }: Props) => {
       invoice.client_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       invoice.invoice_id.toString().includes(searchTerm.toLowerCase()) ||
       invoice.estado.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      invoice.fecha_emision.toLowerCase().includes(searchTerm.toLowerCase())
+      invoice.fecha_emision.toLowerCase().includes(searchTerm.toLowerCase())||
+      invoice.client_id.toString().includes(searchTerm)
   );
 
   return (
@@ -88,9 +87,6 @@ const TableFacturas = ({ invoices }: Props) => {
                     <TableRow
                       key={index}
                       className="hover:bg-zinc-900 cursor-pointer"
-                      onClick={() =>
-                        router.push(`/facturas/${invoice.invoice_id}`)
-                      }
                     >
                       <TableCell className="font-medium">
                         FA-#{invoice.invoice_id}

@@ -34,7 +34,8 @@ const TableClient = ({ clients }: Props) => {
 
   const filteredClients = clients.filter((client: Client) => {
     if (!searchTerm) return true;
-    return client.nombre?.toLowerCase().includes(searchTerm.toLowerCase());
+    return client.nombre?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+          client.id.toString().includes(searchTerm);
   });
 
   return (
