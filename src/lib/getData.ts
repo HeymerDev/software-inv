@@ -81,5 +81,22 @@ export const getClientById = async (id: number) => {
         return null;
     }
 
-    return data as Client; // Cambia el tipo según tu esquema de cliente
+    return data as Client;
+}
+
+export const getProductById = async (id: number) => {
+    const supabase = await serverClient();
+
+    const { data, error } = await supabase
+        .from("product")
+        .select("*")
+        .eq("id", id)
+        .single(); // Obtiene un solo cliente por ID
+
+    if (error) {
+        console.log("Error consultando el producto por ID:", error);
+        return null;
+    }
+
+    return data as Product;
 }

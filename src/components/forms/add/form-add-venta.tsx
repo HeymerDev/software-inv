@@ -42,6 +42,7 @@ const FormAddVenta = ({
 }) => {
   const [selectedClient, setSelectedClient] = useState<Client>();
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchClient, setSearchClient] = useState("");
   const [cart, setCart] = useState<
     Array<{ id: number; name: string; price: number; quantity: number }>
   >([]);
@@ -75,7 +76,7 @@ const FormAddVenta = ({
         setCart([]);
         setSelectedClient({ ...selectedClient, nombre: "" });
 
-        toast.message("Venta Creada",{description: `La venta Creada para el cliente ${selectedClient.nombre} se creo exitosamente`})
+        toast.message("Venta Creada", { description: `La venta Creada para el cliente ${selectedClient.nombre} se creo exitosamente` })
         setTimeout(() => {
           router.push("/ventas");
         }, 2000);
@@ -88,6 +89,11 @@ const FormAddVenta = ({
   };
   const filteredProducts = products.filter((product) =>
     product.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const filteredClient = clients.filter((client) =>
+    client.id.toString().includes(searchClient) ||
+    client.nombre.toLowerCase().includes(searchClient.toLowerCase())
   );
 
   const addToCart = (product: ProductoVenta) => {
@@ -139,28 +145,40 @@ const FormAddVenta = ({
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="client">Cliente</Label>
-                <Select
-                  value={selectedClient?.nombre}
-                  onValueChange={(value) => {
-                    console.log(value)
-                    const client = clients.find((c) => c.nombre === value);
-                    console.log("Cliente seleccionado:", client); // Verifica qué cliente se seleccionó
-                    setSelectedClient(client);
-                  }}
-                >
-                  <SelectTrigger id="client">
-                    <SelectValue placeholder="Seleccionar cliente" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {clients.map((client) => (
-                      <SelectItem key={client.id} value={client.nombre}>
-                        {client.nombre}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              <div className="flex gap-4 items-center">
+                <div className="space-y-2">
+                  <Label htmlFor="client">Cliente</Label>
+                  <Select
+                    value={selectedClient?.nombre}
+                    onValueChange={(value) => {
+                      console.log(value)
+                      const client = clients.find((c) => c.nombre === value);
+                      console.log("Cliente seleccionado:", client); // Verifica qué cliente se seleccionó
+                      setSelectedClient(client);
+                    }}
+                  >
+
+                    <SelectTrigger id="client">
+                      <SelectValue placeholder="Seleccionar cliente" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {filteredClient.map((client) => (
+                        <SelectItem key={client.id} value={client.nombre}>
+                          {client.nombre}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+
+                </div>
+                <Input
+                  className="mt-[20px]"
+                  value={searchClient}
+                  onChange={(e) => setSearchClient(e.target.value)}
+                  placeholder="Filtrar Cliente"
+                  type="search"
+                />
               </div>
             </div>
           </CardContent>
@@ -346,7 +364,7 @@ const FormAddVenta = ({
             </Button>
           </CardFooter>
         </Card>
-        <Toaster theme="dark"/>
+        <Toaster theme="dark" />
       </div>
     </>
   );
