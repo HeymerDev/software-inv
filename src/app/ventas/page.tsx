@@ -24,7 +24,7 @@ const page = async () => {
           Ventas
         </h1>
         <Link href="/ventas/nueva">
-          <Button>
+          <Button className="bg-secondary text-primary">
             <Plus className="mr-2 h-4 w-4" /> Nueva Venta
           </Button>
         </Link>

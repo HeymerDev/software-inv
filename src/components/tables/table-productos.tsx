@@ -41,7 +41,7 @@ export const TableProductos = ({ products }: { products: Product[] }) => {
                     </div>
                 </div>
 
-                <div className="rounded-md border overflow-y-scroll">
+                <div className="rounded-md border max-h-[400px] overflow-y-auto">
                     <Table>
                         <TableHeader>
                             <TableRow>

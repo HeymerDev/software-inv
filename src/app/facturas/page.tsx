@@ -7,6 +7,10 @@ import { Toaster } from "sonner";
 
 const page = async () => {
   const invoices = await getFullInvoices();
+  const invoicesUnique = Array.from(
+    new Map(invoices.map(invoice => [invoice.invoice_id, invoice])).values()
+  );
+  
 
   const calcularTotalFacturado = (invoices: InvoiceWithClient[]) => {
     return invoices.reduce((acumulado, invoice) => {
@@ -38,10 +42,10 @@ const page = async () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              ${calcularTotalFacturado(invoices).toLocaleString("es-CO")}
+              ${calcularTotalFacturado(invoicesUnique).toLocaleString("es-CO")}
             </div>
             <p className="text-xs text-muted-foreground">
-              {invoices.length} facturas emitidas
+              {invoicesUnique.length} facturas emitidas
             </p>
           </CardContent>
         </Card>
@@ -56,12 +60,12 @@ const page = async () => {
           <CardContent>
             <div className="text-2xl font-bold">
               $
-              {calcularTotalFacturadoPendiente(invoices).toLocaleString(
+              {calcularTotalFacturadoPendiente(invoicesUnique).toLocaleString(
                 "es-CO"
               )}
             </div>
             <p className="text-xs text-muted-foreground">
-              {invoices.filter((inv) => inv.estado === "No Pagado").length}{" "}
+              {invoicesUnique.filter((inv) => inv.estado === "No Pagado").length}{" "}
               facturas pendientes
             </p>
           </CardContent>
@@ -77,14 +81,14 @@ const page = async () => {
           <CardContent>
             <div className="text-2xl font-bold">$349.99</div>
             <p className="text-xs text-muted-foreground">
-              {invoices.filter((inv) => inv.estado === "Pagado").length}{" "}
+              {invoicesUnique.filter((inv) => inv.estado === "Pagado").length}{" "}
               facturas canceladas
             </p>
           </CardContent>
         </Card>
       </div>
 
-      <TableFacturas invoices={invoices} />
+      <TableFacturas invoices={invoicesUnique} />
       <Toaster theme="dark" />
     </div>
   );

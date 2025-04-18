@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { serverClient } from '@/lib/supabaseClient'
 import { CustomUser } from '@/types/types'
+import { supabaseAdmin } from './subaseAdminClient'
 export async function login(formData: FormData) {
     const supabase = await serverClient()
     // type-casting here for convenience
@@ -21,18 +22,45 @@ export async function login(formData: FormData) {
 }
 export async function signup(formData: FormData) {
     const supabase = await serverClient()
+
     // type-casting here for convenience
     // in practice, you should validate your inputs
-    const data = {
+
+    const authData = {
         email: formData.get('email') as string,
         password: formData.get('password') as string,
     }
-    const { error } = await supabase.auth.signUp(data)
-    if (error) {
-        redirect('/error')
+
+    const nombre = formData.get("name") as string
+    const rol = parseInt(formData.get("rol") as string)
+
+
+    const { data, error } = await supabaseAdmin.auth.admin.createUser({
+        ...authData,
+        email_confirm: true
+    })
+
+    if (error || data.user?.id) {
+        console.log(error)
     }
-    revalidatePath('/', 'layout')
-    redirect('/')
+
+    const {error: dbError} = await supabase
+        .from("users")
+        .insert(
+            {
+                nombre, 
+                email: authData.email, 
+                contraseña: authData.password, 
+                typeuser_id: rol, 
+                "user-authId":data.user?.id
+            }
+        )
+
+    if(dbError) return console.log(dbError);
+    
+    revalidatePath("/", "layout")
+    revalidatePath("/usuarios")
+    redirect('/usuarios')
 }
 
 export async function logout() {

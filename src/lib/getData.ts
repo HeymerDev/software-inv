@@ -1,5 +1,5 @@
 import { serverClient } from "@/lib/supabaseClient"; // o donde tengas tu cliente configurado
-import { Client, FullInvoiceItem, InvoiceWithClient, Product, VentaConInfo } from "@/types/types";
+import { Client, CustomUser, FullInvoiceItem, InvoiceWithClient, Product, TypeUser, VentaConInfo } from "@/types/types";
 
 export const getVentasConInfo = async () => {
     const supabase = await serverClient();
@@ -99,4 +99,29 @@ export const getProductById = async (id: number) => {
     }
 
     return data as Product;
+}
+
+export const getUsers = async () => {
+    const supabase = await serverClient();
+
+    const { data, error } = await  supabase.rpc("get_custom_users");
+
+    if (error) {
+        console.log('Error al obtener usuarios:', error);
+        return [];
+    }
+
+    return data as CustomUser[];
+}
+
+export const getRoles = async () => {
+    const supabase = await serverClient();
+
+    const { data, error } = await supabase
+        .from("typeuser")
+        .select("*")
+
+    if(error) return console.log(error)
+
+    return data as TypeUser[];
 }

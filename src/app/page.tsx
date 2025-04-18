@@ -206,7 +206,7 @@ export default async function Page() {
                       </Button>
                     </CardHeader>
                     <CardContent>
-                      <div className="space-y-4">
+                      <div className="space-y-4 mt-4">
                         {recentSales.map((sale) => (
                           <div
                             key={sale.venta_id}
