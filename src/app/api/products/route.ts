@@ -1,4 +1,4 @@
-// app/api/delete-client/route.ts
+// app/api/productss/route.ts
 import { deleteProductAction } from "@/lib/deleteData";
 import { NextRequest, NextResponse } from "next/server";
 

@@ -9,11 +9,11 @@ export type CustomUser = {
     id: number;
     nombre: string;
     email: string;
-    role: string;
+    password? : string;
+    role: Role;
 };
 
-
-type Role = "Administrador" | "Vendedor" | "Bodega";
+export type Role = "Administrador" | "Vendedor" | "Bodega";
 
 export type NavItem = {
     title: string;
