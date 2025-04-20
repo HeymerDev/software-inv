@@ -1,16 +1,26 @@
 import { AlertDelete } from "@/components/alert/alert-delete";
 import FormEditCliente from "@/components/forms/edit/form-edit-cliente";
 import { Button } from "@/components/ui/button";
+import { getUserWithRoleServer } from "@/lib/auth";
 
 import { ArrowLeft } from "lucide-react";
 
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const clientId = parseInt(id);
 
-  // Convertir el id a un número entero
+  const userData = await getUserWithRoleServer();
+
+  if (!userData) {
+    return redirect("/login");
+  }
+
+  if (userData.role === "Bodega") {
+    return redirect("/productos");
+  }
 
   return (
     <div className="container mx-auto py-6">

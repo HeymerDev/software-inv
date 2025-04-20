@@ -1,16 +1,26 @@
 import { AlertDelete } from "@/components/alert/alert-delete-product";
-import {FormEditProduct} from "@/components/forms/edit/form-edit-product";
+import { FormEditProduct } from "@/components/forms/edit/form-edit-product";
 import { Button } from "@/components/ui/button";
+import { getUserWithRoleServer } from "@/lib/auth";
 
 import { ArrowLeft } from "lucide-react";
 
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const productId = parseInt(id);
 
-  // Convertir el id a un número entero
+  const userData = await getUserWithRoleServer();
+
+  if (!userData) {
+    return redirect("/login");
+  }
+
+  if (userData.role === "Vendedor") {
+    return redirect("/ventas");
+  }
 
   return (
     <div className="container mx-auto py-6">

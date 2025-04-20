@@ -1,8 +1,10 @@
 import TableFacturas from "@/components/tables/table-facturas";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getUserWithRoleServer } from "@/lib/auth";
 import { getFullInvoices } from "@/lib/getData";
 import { InvoiceWithClient } from "@/types/types";
 import { FileText } from "lucide-react";
+import { redirect } from "next/navigation";
 import { Toaster } from "sonner";
 
 const page = async () => {
@@ -10,7 +12,16 @@ const page = async () => {
   const invoicesUnique = Array.from(
     new Map(invoices.map(invoice => [invoice.invoice_id, invoice])).values()
   );
-  
+
+  const userData = await getUserWithRoleServer();
+
+  if (!userData) {
+    return redirect("/login");
+  }
+
+  if (userData.role === "Bodega") {
+    return redirect("/productos");
+  }
 
   const calcularTotalFacturado = (invoices: InvoiceWithClient[]) => {
     return invoices.reduce((acumulado, invoice) => {

@@ -6,9 +6,21 @@ import Link from "next/link";
 import { getVentasConInfo } from "@/lib/getData";
 import { VentaConInfo } from "@/types/types";
 import TableVentas from "@/components/tables/table-ventas";
+import { redirect } from "next/navigation";
+import { getUserWithRoleServer } from "@/lib/auth";
 
 const page = async () => {
   const sales = await getVentasConInfo();
+
+  const userData = await getUserWithRoleServer();
+
+  if (!userData) {
+    return redirect("/login");
+  }
+
+  if (userData.role === "Bodega") {
+    return redirect("/productos");
+  }
 
   const calcularTotalVentas = (ventas: VentaConInfo[]): number => {
     return ventas.reduce((acumulado, venta) => acumulado + venta.total, 0);

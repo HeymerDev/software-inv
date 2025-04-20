@@ -4,9 +4,21 @@ import Link from "next/link";
 
 import { getClients } from "@/lib/getData";
 import TableClient from "@/components/tables/table-cliente";
+import { getUserWithRoleServer } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export default async function ClientsPage() {
   const clients = await getClients();
+  const userData = await getUserWithRoleServer();
+
+  if (!userData) {
+    return redirect("/login");
+  }
+
+  if (userData.role === "Bodega") {
+    return redirect("/productos");
+  }
+
 
   return (
     <div className="container mx-auto py-6">

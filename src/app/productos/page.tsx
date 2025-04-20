@@ -4,10 +4,21 @@ import Link from "next/link"
 
 import { getProducts } from "@/lib/getData"
 import { TableProductos } from "@/components/tables/table-productos"
+import { getUserWithRoleServer } from "@/lib/auth"
+import { redirect } from "next/navigation"
 
 const page = async () => {
 
     const products = await getProducts();
+    const userData = await getUserWithRoleServer();
+
+    if (!userData) {
+        return redirect("/login");
+    }
+
+    if (userData.role === "Vendedor") {
+        return redirect("/ventas");
+    }
 
     return (
         <div className="container mx-auto py-6">

@@ -1,9 +1,21 @@
 import FormAddVenta from "@/components/forms/add/form-add-venta";
+import { getUserWithRoleServer } from "@/lib/auth";
 import { getClients, getProducts } from "@/lib/getData";
+import { redirect } from "next/navigation";
 
 const page = async () => {
   const clients = await getClients();
   const products = await getProducts();
+
+  const userData = await getUserWithRoleServer();
+
+  if (!userData) {
+    return redirect("/login");
+  }
+
+  if (userData.role === "Bodega") {
+    return redirect("/productos");
+  }
 
   return (
     <div className="container mx-auto py-6">
