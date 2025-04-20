@@ -69,7 +69,7 @@ export async function MainNav() {
           key={item.href}
           href={item.href}
           className={cn(
-            "flex items-center text-sm font-medium transition-colors hover:text-primary"
+            "flex items-center text-sm font-medium transition-colors hover:text-gray-300 data-[state=active]:text-gray-300 data-[state=active]:border-b data-[state=active]:border-b-gray-200"
           )}
         >
           {item.icon}

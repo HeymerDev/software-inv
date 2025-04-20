@@ -122,14 +122,14 @@ export const FormEditUser = async ({user}: {user: CustomUser}) => {
             </Tabs>
 
             <div className="flex justify-end gap-4 mt-6">
-                <Link href="/productos">
+                <Link href="/usuarios">
                     <Button variant="outline" className="cursor-pointer bg-black text-secondary hover:bg-zinc-900 hover:text-secondary">
                         Cancelar
                     </Button>
                 </Link>
                 <Button className="cursor-pointer text-primary bg-secondary hover:bg-gray-200 hover:text-primary">
                     <Save className="mr-2 h-4 w-4" />
-                    Guardar Usuario
+                    Guardar Cambios
                 </Button>
             </div>
         </form>

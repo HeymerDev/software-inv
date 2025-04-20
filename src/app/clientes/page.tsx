@@ -15,7 +15,7 @@ export default async function ClientsPage() {
           Clientes
         </h1>
         <Link href="/clientes/nuevo">
-          <Button className="bg-secondary text-primary">
+          <Button className="bg-secondary text-primary hover:bg-gray-300 hover:text-primary">
             <Plus className="mr-2 h-4 w-4" /> Nuevo Cliente
           </Button>
         </Link>

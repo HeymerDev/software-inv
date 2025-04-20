@@ -61,7 +61,7 @@ export const FormEditProduct = async ({ id }: { id: number }) => {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Nombre del producto *</Label>
-                <Input id="name" name="name" defaultValue={product?.nombre}/>
+                <Input id="name" name="name" defaultValue={product?.nombre} />
               </div>
 
               <div className="space-y-2">
@@ -104,13 +104,13 @@ export const FormEditProduct = async ({ id }: { id: number }) => {
 
       <div className="flex justify-end gap-4 mt-6">
         <Link href="/productos">
-          <Button variant="outline" className="cursor-pointer">
+          <Button variant="outline" className="cursor-pointer bg-black text-secondary hover:bg-zinc-900 hover:text-secondary">
             Cancelar
           </Button>
         </Link>
-        <Button className="cursor-pointer">
+        <Button className="cursor-pointer text-primary bg-secondary hover:bg-gray-200 hover:text-primary">
           <Save className="mr-2 h-4 w-4" />
-          Guardar Producto
+          Guardar Cambios
         </Button>
       </div>
     </form>

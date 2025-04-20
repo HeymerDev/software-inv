@@ -15,7 +15,7 @@ const page = async () => {
                     Usuarios
                 </h1>
                 <Link href="/usuarios/nuevo">
-                    <Button className="bg-secondary text-primary">
+                    <Button className="bg-secondary text-primary hover:bg-gray-300 hover:text-primary">
                         <Plus className="mr-2 h-4 w-4" /> Nuevo Usuario
                     </Button>
                 </Link>

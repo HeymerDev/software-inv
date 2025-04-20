@@ -16,13 +16,13 @@ const page = async () => {
                     Productos
                 </h1>
                 <Link href="/productos/nuevo">
-                    <Button className="bg-secondary text-primary">
+                    <Button className="bg-secondary text-primary hover:bg-gray-300 hover:text-primary">
                         <Plus className="mr-2 h-4 w-4" /> Nuevo Producto
                     </Button>
                 </Link>
             </div>
 
-            <TableProductos products={products}/>
+            <TableProductos products={products} />
 
         </div>
     )
