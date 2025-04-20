@@ -51,7 +51,7 @@ export const TableUsuarios = ({ usuarios }: { usuarios: CustomUser[] }) => {
               {filteredUsers.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={7} className="text-center py-4">
-                    No se encontraron productos
+                    No se encontraron Usuarios
                   </TableCell>
                 </TableRow>
               ) : (

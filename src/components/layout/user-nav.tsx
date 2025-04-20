@@ -26,7 +26,7 @@ export async function UserNav() {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
             <Avatar className="h-8 w-8">
-              <AvatarFallback className="bg-zinc-900">
+              <AvatarFallback className="bg-gray-300 text-black">
                 {userData?.nombre.charAt(0)}
               </AvatarFallback>
             </Avatar>
@@ -47,7 +47,7 @@ export async function UserNav() {
               </p>
               <p className="text-xs leading-none text-muted-foreground">
                 {roleLabels[userData?.nombre as keyof typeof roleLabels] ||
-                  userData?.nombre}
+                  userData?.role}
               </p>
             </div>
           </DropdownMenuLabel>

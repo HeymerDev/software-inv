@@ -6,16 +6,28 @@ import Link from "next/link";
 import { getVentasConInfo } from "@/lib/getData";
 import { VentaConInfo } from "@/types/types";
 import TableVentas from "@/components/tables/table-ventas";
+import { redirect } from "next/navigation";
+import { getUserWithRoleServer } from "@/lib/auth";
 
 const page = async () => {
   const sales = await getVentasConInfo();
+
+  const userData = await getUserWithRoleServer();
+
+  if (!userData) {
+    return redirect("/login");
+  }
+
+  if (userData.role === "Bodega") {
+    return redirect("/productos");
+  }
 
   const calcularTotalVentas = (ventas: VentaConInfo[]): number => {
     return ventas.reduce((acumulado, venta) => acumulado + venta.total, 0);
   };
 
   const fechaHoy = new Date().toISOString().split("T")[0];
-  const ventasHoy = sales.filter((sale) => sale.fecha.split("T")[0] == fechaHoy);  
+  const ventasHoy = sales.filter((sale) => sale.fecha.split("T")[0] == fechaHoy);
 
   return (
     <div className="container mx-auto py-6">
@@ -24,8 +36,8 @@ const page = async () => {
           Ventas
         </h1>
         <Link href="/ventas/nueva">
-          <Button className="bg-secondary text-primary">
-            <Plus className="mr-2 h-4 w-4" /> Nueva Venta
+          <Button className="bg-secondary text-primary hover:bg-gray-300 hover:text-primary">
+            <Plus className="mr-2 h-4 w-4" /> Nuevo Venta
           </Button>
         </Link>
       </div>

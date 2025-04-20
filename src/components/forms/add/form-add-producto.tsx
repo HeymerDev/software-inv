@@ -17,22 +17,22 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export const FormAddProduct = () => {
-    async function createProductAction(formData: FormData) {
-            "use server";
+  async function createProductAction(formData: FormData) {
+    "use server";
 
-            const nombre = formData.get("name") as string;
-            const descripcion = formData.get("description") as string;
-            const stock = formData.get("stock") as string;
-            const precio = formData.get("precio") as string;
-        
-            if ( !nombre || !descripcion || !stock || !precio) {
-              throw new Error("Faltan datos");
-            }
-    
-            await crearProducto({ nombre, descripcion, stock: parseInt(stock), precio: parseInt(precio)})
-            revalidatePath("/productos");
-            redirect("/productos");
-        };
+    const nombre = formData.get("name") as string;
+    const descripcion = formData.get("description") as string;
+    const stock = formData.get("stock") as string;
+    const precio = formData.get("precio") as string;
+
+    if (!nombre || !descripcion || !stock || !precio) {
+      throw new Error("Faltan datos");
+    }
+
+    await crearProducto({ nombre, descripcion, stock: parseInt(stock), precio: parseInt(precio) })
+    revalidatePath("/productos");
+    redirect("/productos");
+  };
 
   return (
     <form action={createProductAction}>
@@ -51,13 +51,13 @@ export const FormAddProduct = () => {
             <CardHeader>
               <CardTitle>Información General</CardTitle>
               <CardDescription>
-               Ingrese la informacion del producto
+                Ingrese la informacion del producto
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Nombre del producto *</Label>
-                <Input id="name" name="name" required/>
+                <Input id="name" name="name" required />
               </div>
 
               <div className="space-y-2">
@@ -99,13 +99,13 @@ export const FormAddProduct = () => {
 
       <div className="flex justify-end gap-4 mt-6">
         <Link href="/productos">
-          <Button variant="outline" className="cursor-pointer">
+          <Button variant="outline" className="cursor-pointer bg-black text-secondary hover:bg-zinc-900 hover:text-secondary">
             Cancelar
           </Button>
         </Link>
-        <Button className="cursor-pointer">
+        <Button className="cursor-pointer text-primary bg-secondary hover:bg-gray-200 hover:text-primary">
           <Save className="mr-2 h-4 w-4" />
-            Crear Producto
+          Crear Producto
         </Button>
       </div>
     </form>

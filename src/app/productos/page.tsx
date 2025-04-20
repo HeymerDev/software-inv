@@ -4,10 +4,21 @@ import Link from "next/link"
 
 import { getProducts } from "@/lib/getData"
 import { TableProductos } from "@/components/tables/table-productos"
+import { getUserWithRoleServer } from "@/lib/auth"
+import { redirect } from "next/navigation"
 
 const page = async () => {
 
     const products = await getProducts();
+    const userData = await getUserWithRoleServer();
+
+    if (!userData) {
+        return redirect("/login");
+    }
+
+    if (userData.role === "Vendedor") {
+        return redirect("/ventas");
+    }
 
     return (
         <div className="container mx-auto py-6">
@@ -16,13 +27,13 @@ const page = async () => {
                     Productos
                 </h1>
                 <Link href="/productos/nuevo">
-                    <Button className="bg-secondary text-primary">
+                    <Button className="bg-secondary text-primary hover:bg-gray-300 hover:text-primary">
                         <Plus className="mr-2 h-4 w-4" /> Nuevo Producto
                     </Button>
                 </Link>
             </div>
 
-            <TableProductos products={products}/>
+            <TableProductos products={products} />
 
         </div>
     )
