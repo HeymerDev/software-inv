@@ -9,7 +9,7 @@ export const getVentasConInfo = async () => {
         .select("*");
 
     if (error) {
-        console.error("Error consultando la vista de ventas:", error);
+        console.log("Error consultando la vista de ventas:", error);
         return [];
     }
 
@@ -114,6 +114,7 @@ export const getUsers = async () => {
     return data as CustomUser[];
 }
 
+
 export const getRoles = async () => {
     const supabase = await serverClient();
 
@@ -125,3 +126,18 @@ export const getRoles = async () => {
 
     return data as TypeUser[];
 }
+
+export async function getUserByAuthId(id: string) {
+    const supabase = await serverClient()
+  
+    const { data, error } = await supabase.rpc('get_user_by_auth_id', {
+      p_auth_id: id
+    }).single()
+  
+    if (error) {
+      console.log('Error trayendo usuario:', error)
+      return null
+    }
+  
+    return data as CustomUser; // como usas limit 1, devuelves el primer resultado
+  }

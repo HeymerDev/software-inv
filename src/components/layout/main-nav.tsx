@@ -62,8 +62,6 @@ export async function MainNav() {
     return item.roles.includes(userData?.role as NavItem["roles"][number]);
   });
 
-  console.log(filteredNavItems);
-
   return (
     <nav className="flex items-center justify-center space-x-4 lg:space-x-6">
       {filteredNavItems.map((item) => (

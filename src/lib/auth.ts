@@ -52,7 +52,7 @@ export async function signup(formData: FormData) {
                 email: authData.email, 
                 contraseña: authData.password, 
                 typeuser_id: rol, 
-                "user-authId":data.user?.id
+                authId: data.user?.id
             }
         )
 
@@ -77,6 +77,8 @@ export const getUserWithRoleServer = async () => {
         data,
         error: authError,
     } = await supabase.auth.getSession();
+
+    console.log(data.session?.user)
 
     if (authError || !data) {
         redirect("/login");

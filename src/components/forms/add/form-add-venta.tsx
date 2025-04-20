@@ -88,7 +88,7 @@ const FormAddVenta = ({
     }
   };
   const filteredProducts = products.filter((product) =>
-    product.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+    product.nombre.toLowerCase().includes(searchTerm.toLowerCase()) && product.stock > 0
   );
 
   const filteredClient = clients.filter((client) =>

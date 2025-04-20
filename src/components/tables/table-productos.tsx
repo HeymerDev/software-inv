@@ -8,6 +8,7 @@ import { Product } from '@/types/types'
 import Link from "next/link"
 import { Button } from "../ui/button"
 import { useState } from "react"
+import { Badge } from "../ui/badge"
 
 
 export const TableProductos = ({ products }: { products: Product[] }) => {
@@ -49,6 +50,7 @@ export const TableProductos = ({ products }: { products: Product[] }) => {
                                 <TableHead className="text-secondary">Descripcion</TableHead>
                                 <TableHead className="text-secondary">Precio</TableHead>
                                 <TableHead className="text-secondary">Stock</TableHead>
+                                <TableHead className="text-secondary">Estado</TableHead>
                                 <TableHead className="text-secondary">Acciones</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -66,7 +68,14 @@ export const TableProductos = ({ products }: { products: Product[] }) => {
                                             <TableCell className="font-medium">{product.nombre}</TableCell>
                                             <TableCell className="line-clamp-1">{product.descripcion}</TableCell>
                                             <TableCell>${product.precio}</TableCell>
-                                            <TableCell className={`${product.stock === 0 ? "text-red" : "text-secondary"}`}>{product.stock}</TableCell>
+                                            <TableCell>{product.stock}</TableCell>
+                                            <TableCell>
+                                                {
+                                                    product.stock == 0 ? (<Badge variant="destructive">Sin Stock</Badge>)
+                                                    : product.stock > 20 ? (<Badge>Alto Stock</Badge>)
+                                                    : product.stock <= 20 && (<Badge className="bg-amber-600">Bajo Stock</Badge>)
+                                                }
+                                            </TableCell>
                                             <TableCell>
                                                 <Link href={`/productos/editar/${product.id}`}>
                                                     <Button variant="ghost" size="icon">

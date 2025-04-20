@@ -7,6 +7,7 @@ import Link from "next/link"
 const page = async () => {
 
     const usuarios = await getUsers();
+
     return (
         <div className="container mx-auto py-6">
             <div className="flex items-center justify-between mb-6">
