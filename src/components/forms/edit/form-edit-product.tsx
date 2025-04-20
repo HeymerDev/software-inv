@@ -19,7 +19,7 @@ import { redirect } from "next/navigation";
 
 
 export const FormEditProduct = async ({ id }: { id: number }) => {
-  async function createProductAction(formData: FormData) {
+  async function editProductAction(formData: FormData) {
     "use server";
 
     const nombre = formData.get("name") as string;
@@ -39,7 +39,7 @@ export const FormEditProduct = async ({ id }: { id: number }) => {
   const product = await getProductById(id)
 
   return (
-    <form action={createProductAction}>
+    <form action={editProductAction}>
       <Tabs defaultValue="general" className="w-full">
         <TabsList className="grid w-fit md:inline-grid grid-cols-1 px-2 bg-zinc-800 rounded-sm gap-3 ">
           <TabsTrigger

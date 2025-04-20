@@ -10,7 +10,8 @@ export type CustomUser = {
     nombre: string;
     email: string;
     password? : string;
-    role: Role;
+    role: Role | string;
+    auth_id: string
 };
 
 export type Role = "Administrador" | "Vendedor" | "Bodega";

@@ -26,6 +26,7 @@ import {
   getInvoices,
 } from "@/lib/getData";
 import { VentaConInfo } from "@/types/types";
+import { filtrarVentasPorPeriodo } from "@/utils/filtroVentas";
 
 export default async function Page() {
   const userData = await getUserWithRoleServer();
@@ -34,6 +35,8 @@ export default async function Page() {
   const invoices = await getInvoices();
 
   const sales = await getVentasConInfo();
+
+  const salesFiltereds = filtrarVentasPorPeriodo(sales)
 
   const recentSales = sales
     .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
@@ -255,10 +258,10 @@ export default async function Page() {
                       <div className="space-y-1">
                         <p className="text-sm font-medium leading-none">Hoy</p>
                         <p className="text-sm text-muted-foreground">
-                          24 ventas
+                         {salesFiltereds.ventasHoy.length } ventas
                         </p>
                       </div>
-                      <div className="font-bold">$1,429.40</div>
+                      <div className="font-bold">${salesFiltereds.totalHoy.toLocaleString("es-CO")}</div>
                     </div>
 
                     <div className="flex items-center justify-between">
@@ -267,10 +270,10 @@ export default async function Page() {
                           Esta semana
                         </p>
                         <p className="text-sm text-muted-foreground">
-                          156 ventas
+                          {salesFiltereds.ventasSemana.length} ventas
                         </p>
                       </div>
-                      <div className="font-bold">$8,234.50</div>
+                      <div className="font-bold">${salesFiltereds.totalSemana.toLocaleString("es-CO")}</div>
                     </div>
 
                     <div className="flex items-center justify-between">
@@ -279,10 +282,10 @@ export default async function Page() {
                           Este mes
                         </p>
                         <p className="text-sm text-muted-foreground">
-                          532 ventas
+                          {salesFiltereds.ventasMes.length} ventas
                         </p>
                       </div>
-                      <div className="font-bold">$45,231.89</div>
+                      <div className="font-bold">${salesFiltereds.totalMes.toLocaleString("es-CO")}</div>
                     </div>
 
                     <div className="flex items-center justify-between">
@@ -291,10 +294,10 @@ export default async function Page() {
                           Este año
                         </p>
                         <p className="text-sm text-muted-foreground">
-                          3,245 ventas
+                          {salesFiltereds.ventasAnio.length} ventas
                         </p>
                       </div>
-                      <div className="font-bold">$325,459.32</div>
+                      <div className="font-bold">${salesFiltereds.totalAnio.toLocaleString("es-CO")}</div>
                     </div>
                   </CardContent>
                 </Card>

@@ -3,12 +3,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Search, Edit, Trash } from "lucide-react"
+import { Search, Edit } from "lucide-react"
 import { CustomUser } from '@/types/types'
 import Link from "next/link"
 import { Button } from "../ui/button"
 import { useState } from "react"
 import { Badge } from "../ui/badge"
+import { AlertDelete } from "../alert/alert-delete-user"
 
 
 export const TableUsuarios = ({ usuarios }: { usuarios: CustomUser[] }) => {
@@ -60,27 +61,31 @@ export const TableUsuarios = ({ usuarios }: { usuarios: CustomUser[] }) => {
                       <TableCell className="font-medium">{user.nombre}</TableCell>
                       <TableCell>{user.email}</TableCell>
                       <TableCell>
-                        <Badge 
+                        <Badge
                           variant={
-                          user.role === "Administrador" ? 
-                          "default" : user.role === "Vendedor" 
-                          ? "secondary" : "outline"
+                            user.role === "Administrador" ?
+                              "default" : user.role === "Vendedor"
+                                ? "secondary" : "outline"
                           }
                           className={`${user.role === "Bodega" && "text-white"}`}
                         >
-                            {user.role}
+                          {user.role}
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        <Link href={`/productos/editar/${user.id}`}>
+                        <Link href={`/usuarios/editar/${user.auth_id}`}>
                           <Button variant="ghost" size="icon">
                             <Edit className="h-4 w-4" />
                           </Button>
                         </Link>
 
-                        <Button variant="ghost" size="icon" disabled={user.role === "Administrador"}>
-                            <Trash className="h-4 w-4" />
-                        </Button>
+                          <AlertDelete 
+                            id={user.auth_id} 
+                            page="Usuario" 
+                            role={user.role}
+                            description="Estas Seguro de esta accion?" 
+                          />
+
                       </TableCell>
                     </TableRow>
                   )
@@ -89,6 +94,7 @@ export const TableUsuarios = ({ usuarios }: { usuarios: CustomUser[] }) => {
             </TableBody>
           </Table>
         </div>
+
       </CardContent>
     </Card>
   )

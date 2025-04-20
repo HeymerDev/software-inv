@@ -13,7 +13,6 @@ import { LogOut } from "lucide-react";
 
 export async function UserNav() {
   const userData = await getUserWithRoleServer();
-  console.log(userData);
 
   const roleLabels = {
     Administrador: "Administrador",
