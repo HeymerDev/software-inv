@@ -94,6 +94,13 @@ git clone https://github.com/tuusuario/mini-market-app.git
 npm i
 ```
 
+4. Varibales de entorno
+```env
+NEXT_PUBLIC_SUPABASE_URL="tusupabseurl.com"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="tukeyanonimehajhajhaja"
+NEXT_PUBLI_SUPABSE_ROLE_KEY="turolekey67y7cs7d6s7"
+```
+
 3. Ejecute en Modo Desarrollo
 ```bash
 npm run dev
